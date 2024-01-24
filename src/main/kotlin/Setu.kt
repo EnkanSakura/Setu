@@ -3,6 +3,8 @@ package top.enkansakura
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
 import net.mamoe.mirai.utils.info
+import top.enkansakura.config.Config
+import java.io.File
 
 object Setu : KotlinPlugin(
     JvmPluginDescription(
@@ -18,4 +20,13 @@ object Setu : KotlinPlugin(
     override fun onEnable() {
         logger.info { "Lolicon Setu Loaded" }
     }
+
+    internal val cacheFolder: File by lazy {
+        val folder = Setu.dataFolder.resolve("cache")
+        if (Config.save && !folder.exists()) {
+            folder.mkdirs()
+        }
+        folder
+    }
+
 }

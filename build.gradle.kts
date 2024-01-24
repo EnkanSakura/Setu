@@ -19,6 +19,9 @@ mirai {
 }
 
 dependencies {
-    implementation("com.squareup.okhttp3:okhttp:4.10.0")
-
+    implementation(platform("io.ktor:ktor-bom:2.3.7"))
+    implementation("io.ktor:ktor-client")
+    implementation("io.ktor:ktor-client-core")
+    implementation("io.ktor:ktor-client-json")
+    implementation("io.ktor:ktor-client-okhttp")
 }
