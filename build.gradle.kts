@@ -17,3 +17,8 @@ repositories {
 mirai {
     jvmTarget = JavaVersion.VERSION_1_8
 }
+
+dependencies {
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
+}

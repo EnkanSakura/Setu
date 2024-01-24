@@ -11,10 +11,11 @@ object Setu : KotlinPlugin(
         version = "1.0.0",
     ) {
         author("EnkanSakura")
-        info("""lolicon setu plugin""")
+        info("""用来从lolicon api 获取setu的插件
+        """.trimMargin())
     }
 ) {
     override fun onEnable() {
-        logger.info { "Plugin loaded" }
+        logger.info { "Lolicon Setu Loaded" }
     }
 }
