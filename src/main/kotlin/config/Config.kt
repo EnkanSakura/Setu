@@ -55,7 +55,7 @@ object Config:AutoSavePluginConfig("config") {
     val recallImgInfo: Boolean by value(false)
 
     @ValueDescription("是否撤回图片")
-    val recallImg: Boolean by value(true)
+    val recallImg: Boolean by value(false)
 
     @ValueDescription("默认的冷却时间(单位：s)")
     val cooldown: Int by value(20)

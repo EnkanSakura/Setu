@@ -22,7 +22,20 @@ class HttpUtils {
 
     private val contentType = "application/json; charset=utf-8"
 
-    private fun sendRequest(request: Request): ResponseBody {
+    private fun sendRequest(url: String, stringBody: String?=null): ResponseBody {
+        val postBody = stringBody?.toRequestBody(contentType.toMediaTypeOrNull())
+        val request = if (postBody == null) Request.Builder()
+                .url(url)
+                .header("Content-Type", contentType)
+                .header("user-agent", ua)
+                .get()
+                .build()
+        else Request.Builder()
+                .url(url)
+                .header("Content-Type", contentType)
+                .header("user-agent", ua)
+                .post(postBody)
+                .build()
         val response: Response = client.newCall(request).execute()
         if (response.code != 200) {
             throw Exception("请求错误，错误码：${response.code}，返回内容：${response.message}")
@@ -31,34 +44,17 @@ class HttpUtils {
     }
 
     fun get(url: String): JsonElement {
-        val request = Request.Builder()
-            .url(url)
-            .header("Content-Type", contentType)
-            .header("user-agent", ua)
-            .get()
-            .build()
-        val body = sendRequest(request)
+        val body = sendRequest(url)
         return json.parseToJsonElement(body.toString())
     }
 
-    fun post(url: String, postBody: String): JsonElement {
-        val request = Request.Builder()
-            .url(url)
-            .header("Content-Type", contentType)
-            .header("user-agent", ua)
-            .post(postBody.toRequestBody(contentType.toMediaTypeOrNull()))
-            .build()
-        val body = sendRequest(request)
+    fun post(url: String, stringBody: String): JsonElement {
+        val body = sendRequest(url, stringBody)
         return json.parseToJsonElement(body.toString())
     }
 
-    fun downloadImage(url: String): InputStream {
-        val request = Request.Builder()
-            .url(url)
-            .header("user-agent", ua)
-            .get()
-            .build()
-        val result: ByteArray = sendRequest(request).bytes()
+    private fun downloadImage(url: String): InputStream {
+        val result: ByteArray = sendRequest(url).bytes()
         if (Config.save) {
             val urlPaths = url.split("/")
             val file = cacheFolder.resolve(urlPaths[urlPaths.lastIndex])

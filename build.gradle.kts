@@ -15,7 +15,7 @@ repositories {
 }
 
 mirai {
-    jvmTarget = JavaVersion.VERSION_1_8
+    jvmTarget = JavaVersion.VERSION_17
 }
 
 dependencies {
